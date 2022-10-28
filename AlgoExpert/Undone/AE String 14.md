@@ -34,6 +34,19 @@ O(b + s) time | O(b + s) space - where b is the length of the big input string a
 
 ```java
 class Program {
+  // O(b + s) time | O(b + s) space - where b is the length of the big
+  // input string and s is the length of the small input string
+  public static String smallestSubstringContaining(String bigString, String smallString) {
+    Map<Character, Integer> targetCharCounts = getCharCounts(smallString);
+    List<Integer> substringBounds = getSubstringBounds(bigString, targetCharCounts);
+    return getStringFromBounds(bigString, substringBounds);
+  }
+
+  public static Map<Character, Integer> getCharCounts(String string) {
+    Map<Character, Integer> charCounts = new HashMap<Character, Integer>();
+    for (int i = 0; i < string.length(); i++) {
+      increaseCharCount(string.charAt(i), charCounts);
+    }
     return charCounts;
   }
 

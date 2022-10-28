@@ -43,6 +43,46 @@ setHead, setTail, insertBefore, insertAfter, and remove: O(1) time | O(1) space 
 
 ```java
 class Program {
+  static class DoublyLinkedList {
+    public Node head;
+    public Node tail;
+
+    // O(1) time | O(1) space
+    public void setHead(Node node) {
+      if (head == null) {
+        head = node;
+        tail = node;
+        return;
+      }
+      insertBefore(head, node);
+    }
+
+    // O(1) time | O(1) space
+    public void setTail(Node node) {
+      if (tail == null) {
+        setHead(node);
+        return;
+      }
+      insertAfter(tail, node);
+    }
+
+    // O(1) time | O(1) space
+    public void insertBefore(Node node, Node nodeToInsert) {
+      if (nodeToInsert == head && nodeToInsert == tail) return;
+      remove(nodeToInsert);
+      nodeToInsert.prev = node.prev;
+      nodeToInsert.next = node;
+      if (node.prev == null) {
+        head = nodeToInsert;
+      } else {
+        node.prev.next = nodeToInsert;
+      }
+      node.prev = nodeToInsert;
+    }
+
+    // O(1) time | O(1) space
+    public void insertAfter(Node node, Node nodeToInsert) {
+      if (nodeToInsert == head && nodeToInsert == tail) return;
       remove(nodeToInsert);
       nodeToInsert.prev = node;
       nodeToInsert.next = node.next;

@@ -34,6 +34,74 @@ Insert: O(log(n)) time | O(n) space - where n is the number of inserted numbers
 
 ```java
 class Program {
+  static class ContinuousMedianHandler {
+    Heap lowers = new Heap(Heap::MAX_HEAP_FUNC, new ArrayList<Integer>());
+    Heap greaters = new Heap(Heap::MIN_HEAP_FUNC, new ArrayList<Integer>());
+    double median = 0;
+
+    // O(log(n)) time | O(n) space
+    public void insert(int number) {
+      if (lowers.length == 0 || number < lowers.peek()) {
+        lowers.insert(number);
+      } else {
+        greaters.insert(number);
+      }
+      rebalanceHeaps();
+      updateMedian();
+    }
+
+    public void rebalanceHeaps() {
+      if (lowers.length - greaters.length == 2) {
+        greaters.insert(lowers.remove());
+      } else if (greaters.length - lowers.length == 2) {
+        lowers.insert(greaters.remove());
+      }
+    }
+
+    public void updateMedian() {
+      if (lowers.length == greaters.length) {
+        median = ((double) lowers.peek() + (double) greaters.peek()) / 2;
+      } else if (lowers.length > greaters.length) {
+        median = lowers.peek();
+      } else {
+        median = greaters.peek();
+      }
+    }
+
+    public double getMedian() {
+      return median;
+    }
+  }
+
+  static class Heap {
+    List<Integer> heap = new ArrayList<Integer>();
+    BiFunction<Integer, Integer, Boolean> comparisonFunc;
+    int length;
+
+    public Heap(BiFunction<Integer, Integer, Boolean> func, List<Integer> array) {
+      comparisonFunc = func;
+      heap = buildHeap(array);
+      length = heap.size();
+    }
+
+    public List<Integer> buildHeap(List<Integer> array) {
+      int firstParentIdx = (array.size() - 2) / 2;
+      for (int currentIdx = firstParentIdx; currentIdx >= 0; currentIdx--) {
+        siftDown(currentIdx, array.size() - 1, array);
+      }
+      return array;
+    }
+
+    public void siftDown(int currentIdx, int endIdx, List<Integer> heap) {
+      int childOneIdx = currentIdx * 2 + 1;
+      while (childOneIdx <= endIdx) {
+        int childTwoIdx = currentIdx * 2 + 2 <= endIdx ? currentIdx * 2 + 2 : -1;
+        int idxToSwap;
+        if (childTwoIdx != -1) {
+          if (comparisonFunc.apply(heap.get(childTwoIdx), heap.get(childOneIdx))) {
+            idxToSwap = childTwoIdx;
+          } else {
+            idxToSwap = childOneIdx;
           }
         } else {
           idxToSwap = childOneIdx;

@@ -39,6 +39,40 @@ O(nlog(n)) time | O(n) space - where n is the number of times
 
 ```java
 class Program {
+
+  // O(nlog(n)) time | O(n) space - where n is the number of times
+  public int laptopRentals(ArrayList<ArrayList<Integer>> times) {
+    if (times.size() == 0) {
+      return 0;
+    }
+
+    Collections.sort(times, (a, b) -> Integer.compare(a.get(0), b.get(0)));
+
+    ArrayList<ArrayList<Integer>> timesWhenLaptopIsUsed = new ArrayList<ArrayList<Integer>>();
+    timesWhenLaptopIsUsed.add(times.get(0));
+    MinHeap heap = new MinHeap(timesWhenLaptopIsUsed);
+
+    for (int idx = 1; idx < times.size(); idx++) {
+      ArrayList<Integer> currentInterval = times.get(idx);
+      if (heap.peek().get(1) <= currentInterval.get(0)) {
+        heap.remove();
+      }
+      heap.insert(currentInterval);
+    }
+
+    return timesWhenLaptopIsUsed.size();
+  }
+
+  static class MinHeap {
+    ArrayList<ArrayList<Integer>> heap = new ArrayList<ArrayList<Integer>>();
+
+    public MinHeap(ArrayList<ArrayList<Integer>> array) {
+      heap = buildHeap(array);
+    }
+
+    public ArrayList<ArrayList<Integer>> buildHeap(ArrayList<ArrayList<Integer>> array) {
+      int firstParentIdx = (array.size() - 2) / 2;
+      for (int currentIdx = firstParentIdx; currentIdx >= 0; currentIdx--) {
         siftDown(currentIdx, array.size() - 1, array);
       }
       return array;

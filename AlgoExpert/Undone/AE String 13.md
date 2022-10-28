@@ -33,6 +33,15 @@ O(n^2 + m) time | O(n + m) space - where n is the length of the main string and 
 
 ```java
 class Program {
+  // O(n^2 + m) time | O(n + m) space
+  public static String[] patternMatcher(String pattern, String str) {
+    if (pattern.length() > str.length()) {
+      return new String[] {};
+    }
+    char[] newPattern = getNewPattern(pattern);
+    boolean didSwitch = newPattern[0] != pattern.charAt(0);
+    Map<Character, Integer> counts = new HashMap<Character, Integer>();
+    counts.put('x', 0);
     counts.put('y', 0);
     int firstYPos = getCountsAndFirstYPos(newPattern, counts);
     if (counts.get('y') != 0) {

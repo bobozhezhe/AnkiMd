@@ -42,6 +42,13 @@ BuildHeap: O(n) time | O(1) space - where n is the length of the input array Sif
 
 ```java
 class Program {
+    static class MinHeap {
+    List<Integer> heap = new ArrayList<Integer>();
+
+    public MinHeap(List<Integer> array) {
+      heap = buildHeap(array);
+    }
+
     // O(n) time | O(1) space
     public List<Integer> buildHeap(List<Integer> array) {
       int firstParentIdx = (array.size() - 2) / 2;

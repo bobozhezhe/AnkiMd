@@ -40,6 +40,21 @@ O(n) time | O(1) space - where n is the number of nodes in the Linked List
 
 ```java
 class Program {
+  // O(n) time | O(1) space - where n is the number of nodes in the Linked List
+  public static LinkedList rearrangeLinkedList(LinkedList head, int k) {
+    LinkedList smallerListHead = null;
+    LinkedList smallerListTail = null;
+    LinkedList equalListHead = null;
+    LinkedList equalListTail = null;
+    LinkedList greaterListHead = null;
+    LinkedList greaterListTail = null;
+
+    LinkedList node = head;
+    while (node != null) {
+      if (node.value < k) {
+        LinkedListPair smallerList = growLinkedList(smallerListHead, smallerListTail, node);
+        smallerListHead = smallerList.head;
+        smallerListTail = smallerList.tail;
       } else if (node.value > k) {
         LinkedListPair greaterList = growLinkedList(greaterListHead, greaterListTail, node);
         greaterListHead = greaterList.head;

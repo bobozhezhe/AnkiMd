@@ -28,6 +28,17 @@ Average case: O(n + m) | O(n) space - where n is the length of the main string a
 
 ```java
 class Program {
+  // Average case: O(n + m) | O(n) space - where n is the length
+  // of the main string and m is the length of the substring
+  public static String underscorifySubstring(String str, String substring) {
+    List<Integer[]> locations = collapse(getLocations(str, substring));
+    return underscorify(str, locations);
+  }
+
+  public static List<Integer[]> getLocations(String str, String substring) {
+    List<Integer[]> locations = new ArrayList<Integer[]>();
+    int startIdx = 0;
+    while (startIdx < str.length()) {
       int nextIdx = str.indexOf(substring, startIdx);
       if (nextIdx != -1) {
         locations.add(new Integer[] {nextIdx, nextIdx + substring.length()});

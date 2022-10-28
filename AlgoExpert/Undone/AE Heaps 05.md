@@ -80,6 +80,45 @@ class Program {
 
 ```java
 class Program {
+  // O(nlog(k) + k) time | O(n + k) space - where n is the total
+  // number of array elements and k is the number of arrays
+  public static List<Integer> mergeSortedArrays(List<List<Integer>> arrays) {
+    List<Integer> sortedList = new ArrayList<Integer>();
+    List<Item> smallestItems = new ArrayList<Item>();
+
+    for (int arrayIdx = 0; arrayIdx < arrays.size(); arrayIdx++) {
+      smallestItems.add(new Item(arrayIdx, 0, arrays.get(arrayIdx).get(0)));
+    }
+
+    MinHeap minHeap = new MinHeap(smallestItems);
+    while (!minHeap.isEmpty()) {
+      Item smallestItem = minHeap.remove();
+      sortedList.add(smallestItem.num);
+      if (smallestItem.elementIdx == arrays.get(smallestItem.arrayIdx).size() - 1) continue;
+      minHeap.insert(
+          new Item(
+              smallestItem.arrayIdx,
+              smallestItem.elementIdx + 1,
+              arrays.get(smallestItem.arrayIdx).get(smallestItem.elementIdx + 1)));
+    }
+
+    return sortedList;
+  }
+
+  static class Item {
+    public int arrayIdx;
+    public int elementIdx;
+    public int num;
+
+    public Item(int arrayIdx, int elementIdx, int num) {
+      this.arrayIdx = arrayIdx;
+      this.elementIdx = elementIdx;
+      this.num = num;
+    }
+  }
+
+  static class MinHeap {
+    List<Item> heap = new ArrayList<Item>();
 
     public MinHeap(List<Item> array) {
       heap = buildHeap(array);

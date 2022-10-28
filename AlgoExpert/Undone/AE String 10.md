@@ -31,6 +31,15 @@ O(n * l) time | O(c) space - where n is the number of words, l is the length of 
 
 ```java
 class Program {
+
+  // O(n * l) time | O(c) space - where n is the number of words,
+  // l is the length of the longest word, and c is the number of
+  // unique characters across all words
+  // See notes under video explanation for details about the space complexity.
+  public char[] minimumCharactersForWords(String[] words) {
+    HashMap<Character, Integer> maximumCharacterFrequencies = new HashMap<Character, Integer>();
+
+    for (String word : words) {
       HashMap<Character, Integer> characterFrequencies = countCharacterFrequencies(word);
       updateMaximumFrequencies(characterFrequencies, maximumCharacterFrequencies);
     }

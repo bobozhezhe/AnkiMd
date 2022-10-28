@@ -69,6 +69,17 @@ O(1) time | O(1) space - assuming a 9x9 input board
 
 ```java
 class Program {
+
+  // O(1) time | O(1) space - assuming a 9x9 input board
+  public ArrayList<ArrayList<Integer>> solveSudoku(ArrayList<ArrayList<Integer>> board) {
+    solvePartialSudoku(0, 0, board);
+    return board;
+  }
+
+  public boolean solvePartialSudoku(int row, int col, ArrayList<ArrayList<Integer>> board) {
+    int currentRow = row;
+    int currentCol = col;
+
     if (currentCol == board.get(currentRow).size()) {
       currentRow += 1;
       currentCol = 0;

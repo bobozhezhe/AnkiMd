@@ -88,6 +88,18 @@ class Program {
 
 ```java
 class Program {
+
+  // Upper Bound: O(n!) time | O(n) space - where n is the input number
+  public int nonAttackingQueens(int n) {
+    HashSet<Integer> blockedColumns = new HashSet<Integer>();
+    HashSet<Integer> blockedUpDiagonals = new HashSet<Integer>();
+    HashSet<Integer> blockedDownDiagonals = new HashSet<Integer>();
+    return getNumberOfNonAttackingQueenPlacements(
+        0, blockedColumns, blockedUpDiagonals, blockedDownDiagonals, n);
+  }
+
+  public int getNumberOfNonAttackingQueenPlacements(
+      int row,
       HashSet<Integer> blockedColumns,
       HashSet<Integer> blockedUpDiagonals,
       HashSet<Integer> blockedDownDiagonals,

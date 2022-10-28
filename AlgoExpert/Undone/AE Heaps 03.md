@@ -31,6 +31,39 @@ O(nlog(k)) time | O(k) space - where n is the number of elements in the array an
 
 ```java
 class Program {
+
+  // O(nlog(k)) time | O(k) space - where n is the number
+  // of elements in the array and k is how far away elements
+  // are from their sorted position
+  public int[] sortKSortedArray(int[] array, int k) {
+    List<Integer> heapValues = new ArrayList<Integer>();
+    for (int i = 0; i < Math.min(k + 1, array.length); i++) heapValues.add(array[i]);
+
+    MinHeap minHeapWithKElements = new MinHeap(heapValues);
+
+    int nextIndexToInsertElement = 0;
+    for (int idx = k + 1; idx < array.length; idx++) {
+      int minElement = minHeapWithKElements.remove();
+      array[nextIndexToInsertElement] = minElement;
+      nextIndexToInsertElement += 1;
+
+      int currentElement = array[idx];
+      minHeapWithKElements.insert(currentElement);
+    }
+
+    while (!minHeapWithKElements.isEmpty()) {
+      int minElement = minHeapWithKElements.remove();
+      array[nextIndexToInsertElement] = minElement;
+      nextIndexToInsertElement += 1;
+    }
+
+    return array;
+  }
+
+  class MinHeap {
+    List<Integer> heap = new ArrayList<Integer>();
+
+    public MinHeap(List<Integer> array) {
       heap = buildHeap(array);
     }
 
