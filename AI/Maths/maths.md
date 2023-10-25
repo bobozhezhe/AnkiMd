@@ -1,0 +1,15 @@
+# Leetcode
+
+## 0
+
+### Question
+
+%
+
+### Key Point
+
+### Solution 1
+
+```java
+
+```
